@@ -1,0 +1,6 @@
+{
+  "devDependencies": {
+    "sparknode": "^0.4.5",
+    "twilio": "^1.6.0"
+  }
+}
