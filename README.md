@@ -12,15 +12,15 @@ For hardware, I'm utilizing a [Spark Core](https://www.spark.io) hooked up to a 
 
 The Grove Water Sensor's three wires (power, ground and data) are soldered to the top of the device.
 
-![Spark Core](https://github.com/nicjansma/spark-core-water-sensor/raw/master/images/core.png "Spark Core")  
+![Spark Core](https://github.com/nicjansma/spark-core-water-sensor/raw/master/images/core.jpg "Spark Core")  
 
 I've 3D printed a simple "seat" for the Core to sit on so the external pins don't short.  The STL is included under `case/`.
 
-![Spark Core Case](https://github.com/nicjansma/spark-core-water-sensor/raw/master/images/case.png "Spark Core Case")  
+![Spark Core Case](https://github.com/nicjansma/spark-core-water-sensor/raw/master/images/case.jpg "Spark Core Case")  
 
 The Core is taped to my sump pump's pipe, and the Water Sensor is taped just below ground-level in the sump pump water pit.
 
-![Grove Water Sensor](https://github.com/nicjansma/spark-core-water-sensor/raw/master/images/sensor.png "Grove Water Sensor")  
+![Grove Water Sensor](https://github.com/nicjansma/spark-core-water-sensor/raw/master/images/sensor.jpg "Grove Water Sensor")  
 
 ## Firmware
 
