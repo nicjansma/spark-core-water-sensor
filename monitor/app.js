@@ -40,8 +40,8 @@ core.on('online', function() {
 });
 
 core.on('alarm', function(data) {
-    console.log('Alarm: ' + data);
-    sendTextMessage('Water alarm: ' + data);
+    console.log('Alarm: ' + data.data);
+    sendTextMessage('Water alarm: ' + data.data);
 });
 
 core.on('error', function(data) {
