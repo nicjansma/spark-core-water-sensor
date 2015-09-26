@@ -1,3 +1,5 @@
+'use strict';
+
 //
 // Imports
 //
@@ -9,8 +11,7 @@ var twilio = require('twilio');
 // Config
 //
 if (!fs.existsSync('./config.json')) {
-    console.error('Please create a config.json -- check config.json.sample');
-    process.exit();
+    throw new Error('Please create a config.json -- check config.json.sample');
 }
 
 var config = require('./config.json');
@@ -29,7 +30,7 @@ var core = new spark.Core({
 //
 // Twilio Config
 //
-var twilioClient = require('twilio')(config.twilioAccountSID, config.twilioAuthToken);
+var twilioClient = twilio(config.twilioAccountSID, config.twilioAuthToken);
 
 //
 // Events
@@ -56,11 +57,11 @@ function sendTextMessage(message) {
         to: config.smsToPhoneNumber,
         from: config.smsFromPhoneNumber,
         body: message
-    }, function(err, responseData) {
+    }, function(err) {
         if (err) {
             console.error(err);
         } else {
-            console.log("'" + message + "' sent to " + config.smsToPhoneNumber);
+            console.log('"' + message + '" sent to ' + config.smsToPhoneNumber);
         }
     });
 }

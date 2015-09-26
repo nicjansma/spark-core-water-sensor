@@ -1,5 +1,22 @@
 {
+  "name": "spark-core-water-sensor-monitor",
+  "description": "Spark Core water sensor monitoring app",
+  "main": "app.js",
+  "author": "Nic Jansma",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nicjansma/spark-core-water-sensor.js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nicjansma/spark-core-water-sensor/issues"
+  },
+  "license": "MIT",
   "devDependencies": {
+    "eslint": "^1.5.1",
+    "grunt": "^0.4.5",
+    "grunt-contrib-clean": "^0.6.0",
+    "gruntify-eslint": "^1.1.0",
     "sparknode": "^0.4.5",
     "twilio": "^1.6.0"
   }
