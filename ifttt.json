@@ -1,0 +1,10 @@
+{
+    "eventName" : "water_alarm",
+    "url" : "https://maker.ifttt.com/trigger/alert/with/key/[your maker key]",
+    "requestType" : "POST",
+    "query" : {
+        "value1" : "Water Alarm",
+        "value2" : "{{SPARK_EVENT_VALUE}}"
+    },
+    "mydevices" : true
+}

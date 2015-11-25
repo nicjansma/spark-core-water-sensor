@@ -36,65 +36,62 @@ int lastStateSwitchTime = 0;
 //
 
 // Spark setup
-void setup()
-{
+void setup() {
     // initialize our pins I/O
-	pins_init();
-	
-	// tell the world we're online
-	Spark.publish("online");
-	
-	// publish the alarm state variable
-	Spark.variable("alarmState", &alarmState, INT);
+    pins_init();
+    
+    // tell the world we're online
+    Spark.publish("online");
+    
+    // publish the alarm state variable
+    Spark.variable("alarmState", &alarmState, INT);
 }
 
 // Spark loop
-void loop()
-{
-	if(isExposedToWater()) {
-	    //
-	    // Alarm ON
-	    //
-	    if (alarmState == 0) {
-	        // only alarm if we're past the debounce interval
-	        int now = Time.now();
-	        if (now - lastStateSwitchTime > DEBOUNCE_SECONDS) {
-    	        alarmState = 1;
-    	        lastStateSwitchTime = now;
-	    	    digitalWrite(LED, HIGH);
-		        Spark.publish("alarm", "on", 60, PRIVATE);
-	        }
-	    }
-	} else {
-	    //
-	    // Alarm off
-	    //
-	    if (alarmState == 1) {
-	        // only alarm if we're past the debounce interval
-	        int now = Time.now();
-	        if (now - lastStateSwitchTime > DEBOUNCE_SECONDS) {
-    	        alarmState = 0;    
-    	        lastStateSwitchTime = now;
-	            digitalWrite(LED, LOW);
-	            Spark.publish("alarm", "off", 60, PRIVATE);
-	        }
-	    }
-	}
+void loop() {
+    if (isExposedToWater()) {
+        //
+        // Alarm ON
+        //
+        if (alarmState == 0) {
+            // only alarm if we're past the debounce interval
+            int now = Time.now();
+            if (now - lastStateSwitchTime > DEBOUNCE_SECONDS) {
+                alarmState = 1;
+                lastStateSwitchTime = now;
+                digitalWrite(LED, HIGH);
+                Spark.publish("water_alarm", "on", 60, PRIVATE);
+            }
+        }
+    } else {
+        //
+        // Alarm off
+        //
+        if (alarmState == 1) {
+            // only alarm if we're past the debounce interval
+            int now = Time.now();
+            if (now - lastStateSwitchTime > DEBOUNCE_SECONDS) {
+                alarmState = 0;    
+                lastStateSwitchTime = now;
+                digitalWrite(LED, LOW);
+                Spark.publish("water_alarm", "off", 60, PRIVATE);
+            }
+        }
+    }
 }
 
 // initialize our pins
-void pins_init()
-{
+void pins_init() {
     pinMode(LED, OUTPUT);
-	pinMode(WATER_SENSOR, INPUT);
+    pinMode(WATER_SENSOR, INPUT);
 }
 
 // determine if we're exposed to water or not
-boolean isExposedToWater()
-{
-	if (digitalRead(WATER_SENSOR) == LOW) {
-		return true;
-	} else {
-	    return false;
-	}
+boolean isExposedToWater() {
+    if (digitalRead(WATER_SENSOR) == LOW) {
+        return true;
+    } else {
+        return false;
+    }
 }
+
