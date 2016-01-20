@@ -33,7 +33,10 @@ The firmware publishes these two events to the [Spark Cloud](http://docs.spark.i
 * `online` when the device first starts up
 * `water_alarm` when water is sensed.  The payload is either `on` or `off`.
 
-The firmware also exposes a variable `alarmStatus`: `0` means no alarm, and `1` means the alarm is active.
+The firmware also exposes two variables:
+
+* `alarmStatus`: `0` means not in alarm state, and `1` means the alarm is active.
+* `water`: `0` means no water detected, and `1` means water detected.
 
 ## Software
 

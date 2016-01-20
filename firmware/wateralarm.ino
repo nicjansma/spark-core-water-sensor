@@ -19,16 +19,19 @@
 
 // How long to wait before noting that the alarm has switched states -- this
 // helps stop a super-sensitive sensor from ping-ponging back and forth a lot.
-#define DEBOUNCE_SECONDS 5
+#define DEBOUNCE_SECONDS 300
 
 //
 // Vars
 //
 
-// the alarm state: 0 = off, 1 = on
-int alarmState = 0;
+// whether or not water is sensed: 0 = no, 1 = yes
+int water = 0;
 
-// the last tiem we switched alarm states (ms since Unix epoch)
+// the alarm state: 0 = off, 1 = on
+int alarmState = 1;
+
+// the last time we switched alarm states (ms since Unix epoch)
 int lastStateSwitchTime = 0;
 
 //
@@ -43,13 +46,19 @@ void setup() {
     // tell the world we're online
     Spark.publish("online");
     
+    // publish the water variable
+    Spark.variable("water", &water, INT);
+    
     // publish the alarm state variable
     Spark.variable("alarmState", &alarmState, INT);
 }
 
 // Spark loop
 void loop() {
-    if (isExposedToWater()) {
+    water = isExposedToWater();
+    if (water) {
+        digitalWrite(LED, HIGH);
+
         //
         // Alarm ON
         //
@@ -59,11 +68,12 @@ void loop() {
             if (now - lastStateSwitchTime > DEBOUNCE_SECONDS) {
                 alarmState = 1;
                 lastStateSwitchTime = now;
-                digitalWrite(LED, HIGH);
                 Spark.publish("water_alarm", "on", 60, PRIVATE);
             }
         }
     } else {
+        digitalWrite(LED, LOW);
+
         //
         // Alarm off
         //
@@ -73,7 +83,6 @@ void loop() {
             if (now - lastStateSwitchTime > DEBOUNCE_SECONDS) {
                 alarmState = 0;    
                 lastStateSwitchTime = now;
-                digitalWrite(LED, LOW);
                 Spark.publish("water_alarm", "off", 60, PRIVATE);
             }
         }
@@ -94,4 +103,3 @@ boolean isExposedToWater() {
         return false;
     }
 }
-
