@@ -38,19 +38,20 @@ int lastStateSwitchTime = 0;
 // Functions
 //
 
-// Spark setup
+// Particle setup
 void setup() {
     // initialize our pins I/O
-    pins_init();
-    
+    pinMode(LED, OUTPUT);
+    pinMode(WATER_SENSOR, INPUT);
+
     // tell the world we're online
-    Spark.publish("online");
-    
+    Particle.publish("online");
+
     // publish the water variable
-    Spark.variable("water", &water, INT);
-    
+    Particle.variable("water", &water, INT);
+
     // publish the alarm state variable
-    Spark.variable("alarmState", &alarmState, INT);
+    Particle.variable("alarmState", &alarmState, INT);
 }
 
 // Spark loop
@@ -68,7 +69,7 @@ void loop() {
             if (now - lastStateSwitchTime > DEBOUNCE_SECONDS) {
                 alarmState = 1;
                 lastStateSwitchTime = now;
-                Spark.publish("water_alarm", "on", 60, PRIVATE);
+                Particle.publish("water_alarm", "on", 60, PRIVATE);
             }
         }
     } else {
@@ -81,18 +82,12 @@ void loop() {
             // only alarm if we're past the debounce interval
             int now = Time.now();
             if (now - lastStateSwitchTime > DEBOUNCE_SECONDS) {
-                alarmState = 0;    
+                alarmState = 0;
                 lastStateSwitchTime = now;
-                Spark.publish("water_alarm", "off", 60, PRIVATE);
+                Particle.publish("water_alarm", "off", 60, PRIVATE);
             }
         }
     }
-}
-
-// initialize our pins
-void pins_init() {
-    pinMode(LED, OUTPUT);
-    pinMode(WATER_SENSOR, INPUT);
 }
 
 // determine if we're exposed to water or not
