@@ -1,4 +1,4 @@
-# Spark Core / Photon / Electron Water Sensor
+# Particle (Spark) Core / Photon / Electron Water Sensor
 
 By [Nic Jansma](http://nicj.net)
 
@@ -38,6 +38,10 @@ The firmware also exposes two variables:
 * `alarmStatus`: `0` means not in alarm state, and `1` means the alarm is active.
 * `water`: `0` means no water detected, and `1` means water detected.
 
+### With Temperature + Humidity Sensor
+
+In addition, there's also a version of the firmware available that's a combination Water Sensor plus a Temperature and Humidity logger, based on the [dht-logger](github.com/nicjansma/dht-logger) project.  To use this combination sensor, check out the `firmware-with-dht/` folder.
+
 ## Software
 
 The [previous version](https://github.com/nicjansma/spark-core-water-sensor/releases/tag/v1.0.0) of this sensor used a NodeJS app to monitor for events from the Spark Core.  This app would then use the [Twilio](http://twilio.com/) API to send me a SMS when there was an alarm.
@@ -48,19 +52,21 @@ Instead of using Twilio for SMS, I am now using [IFTTT](https://ifttt.com) to se
 
 The creation of the Particle Webhook is pretty simple. First, [install](https://docs.particle.io/guide/tools-and-features/cli/) the `particle-cli` NPM module:
 
-```
+``` 
 npm install -g particle-cli
 ```
 
 Then, make sure you're logged in:
-```
+
+``` 
 particle login
 ```
 
 Next, create an [IFTTT](https://ifttt.com) account.  Then, create a [IFTTT Maker](https://ifttt.com/maker) page.  On there, look for your private key (under _Your key is_).
 
 Then, create a file called `ifttt.json` into your directory (see the sample in this repo).  Replace `[your maker key]` in that file with your private key.  It should look something like this:
-```
+
+``` 
 {
     "eventName" : "water_alarm",
     "url" : "https://maker.ifttt.com/trigger/alert/with/key/[your maker key]",
@@ -74,7 +80,8 @@ Then, create a file called `ifttt.json` into your directory (see the sample in t
 ```
 
 Last, you need to tell Particle how to integrate with IFTTT.  Do this:
-```
+
+``` 
 particle webhook create ifttt.json
 ```
 
@@ -83,6 +90,7 @@ You should see a success message.  You're all set!
 ## Parts and Cost
 
 Total cost is around $21.90:
+
 * $19 for the [Photon](https://store.particle.io)
 * $2.90 for the [Grove Water Sensor](http://www.seeedstudio.com/wiki/Grove_-_Water_Sensor)
 * Cables to connect the Water Sensor to the Core
