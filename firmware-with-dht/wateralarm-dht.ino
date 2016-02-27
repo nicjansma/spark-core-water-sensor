@@ -48,15 +48,13 @@
 #define SEND_INTERVAL 60
 
 // AdaFruit integration
-#define ADAFRUIT_ENABLED 1
 #define ADAFRUIT_API_KEY "27df87804133673ce466a5f90334cf11affeaf2d"
 #define ADAFRUIT_FEED_TEMPERATURE "wateralarm-temp"
 #define ADAFRUIT_FEED_HUMIDITY "wateralarm-humidity"
 #define ADAFRUIT_FEED_HEAT_INDEX "wateralarm-heat-index"
 
 // Particle event
-#define PARTICLE_EVENT 0
-#define PARTICLE_EVENT_NAME "iot-log"
+#define PARTICLE_LOG_EVENT_NAME "iot-log"
 
 //
 // Vars
@@ -125,6 +123,13 @@ void setup() {
     // start the DHT and Adafruit logging
     dht.begin();
     aio.begin();
+
+    // startup event
+    sprintf(payload,
+            "{\"device\":\"%s\",\"state\":\"starting\"}",
+            DEVICE_NAME);
+
+    Particle.publish(PARTICLE_LOG_EVENT_NAME, payload, 60, PRIVATE);
 }
 
 // Spark loop
@@ -149,6 +154,13 @@ void checkWater() {
                 alarmState = 1;
                 lastStateSwitchTime = now;
                 Particle.publish("water_alarm", "on", 60, PRIVATE);
+
+                // startup event
+                sprintf(payload,
+                        "{\"device\":\"%s\",\"state\":\"on\"}",
+                        DEVICE_NAME);
+
+                Particle.publish(PARTICLE_LOG_EVENT_NAME, payload, 60, PRIVATE);
             }
         }
     } else {
@@ -164,6 +176,13 @@ void checkWater() {
                 alarmState = 0;
                 lastStateSwitchTime = now;
                 Particle.publish("water_alarm", "off", 60, PRIVATE);
+
+                // startup event
+                sprintf(payload,
+                        "{\"device\":\"%s\",\"state\":\"off\"}",
+                        DEVICE_NAME);
+
+                Particle.publish(PARTICLE_LOG_EVENT_NAME, payload, 60, PRIVATE);
             }
         }
     }
@@ -212,7 +231,7 @@ void checkDHT() {
         humidity,
         heatIndex);
 
-    Particle.publish(PARTICLE_EVENT_NAME, payload, 60, PRIVATE);
+    Particle.publish(PARTICLE_LOG_EVENT_NAME, payload, 60, PRIVATE);
 }
 
 // determine if we're exposed to water or not

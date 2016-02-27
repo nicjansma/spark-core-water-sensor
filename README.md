@@ -87,6 +87,14 @@ particle webhook create ifttt.json
 
 You should see a success message.  You're all set!
 
+## SmartThings
+
+This device can be hooked up to a [SmartThings](https://www.smartthings.com/) hub.
+
+See my [smart-things project](https://github.com/nicjansma/smart-things/tree/master/devicetypes/nicjansma/spark-core-water-sensor) for a sample Device Handler.
+
+![SmartThings](https://github.com/nicjansma/spark-core-water-sensor/raw/master/images/smartthings.png "SmartThings")  
+
 ## Parts and Cost
 
 Total cost is around $21.90:
